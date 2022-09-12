@@ -11,8 +11,12 @@ class EpisodesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViewController()
+    }
+    
+    private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Episodes"
+        title = Constans.Text.Titles.episodes
         view.backgroundColor = .systemBlue
     }
 }

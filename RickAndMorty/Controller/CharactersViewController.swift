@@ -11,8 +11,12 @@ class CharactersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViewController()
+    }
+    
+    private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Characters"
+        title = Constans.Text.Titles.characters
         view.backgroundColor = .systemGreen
     }
 }

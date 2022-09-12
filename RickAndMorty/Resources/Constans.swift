@@ -22,14 +22,23 @@ struct Constans {
             static let locations = "Locations"
             static let characters = "Characters"
             static let episodes = "Episodes"
+            static let bookmarks = "Bookmarks"
+        }
+        
+        struct Titles {
+            static let locations = "Locations"
+            static let characters = "Characters"
+            static let episodes = "Episodes"
+            static let bookmarks = "Bookmarks"
         }
     }
 
     struct Images {
         struct Tabbar {
-            static let locations = UIImage(systemName: "globe.americas.fill")
+            static let locations = UIImage(systemName: "globe.asia.australia.fill")
             static let characters = UIImage(systemName: "person.2.circle.fill")
             static let episodes = UIImage(systemName: "play.circle.fill")
+            static let bookmarks = UIImage(systemName: "bookmark.circle.fill")
         }
     }
 }
