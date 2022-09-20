@@ -1,5 +1,5 @@
 //
-//  EpisodesViewController.swift
+//  LocationsViewController.swift
 //  RickAndMorty
 //
 //  Created by Даниил Симахин on 12.09.2022.
@@ -7,15 +7,11 @@
 
 import UIKit
 
-class EpisodesViewController: UIViewController {
-    
-    enum Section {
-        case Episodes
-    }
-    
+class LocationsViewController: UIViewController {
+
     private var collectionView: UICollectionView!
-    private let dataSource = EpisodesDataSource()
-    private let delegate = EpisodesDelegate()
+    private let dataSource = DataSource()
+    private let delegate = EmojiCollectionViewDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +19,15 @@ class EpisodesViewController: UIViewController {
         createCollectionView()
     }
     
+    private func setupViewController() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = Constans.Text.Titles.locations
+        view.backgroundColor = .systemRed
+    }
+    
     private func createCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: configureLayout())
-        collectionView.register(EpisodesCollectionViewCell.self, forCellWithReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier)
+        collectionView.register(LocationCollectionViewCell.self, forCellWithReuseIdentifier: LocationCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
         collectionView.dataSource = dataSource
         collectionView.delegate = delegate
@@ -36,13 +38,6 @@ class EpisodesViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = CGSize(width: view.frame.width, height: 30)
-        layout.sectionHeadersPinToVisibleBounds = true
         return layout
-    }
-    
-    private func setupViewController() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        title = Constans.Text.Titles.episodes
-        view.backgroundColor = .systemBlue
     }
 }
