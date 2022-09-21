@@ -11,6 +11,7 @@ class DataSource: NSObject, UICollectionViewDataSource {
     
     let emoji = Emoji.shared
     
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return emoji.sections.count
     }
@@ -27,8 +28,8 @@ class DataSource: NSObject, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationCollectionViewCell.reuseIdentifier, for: indexPath) as? LocationCollectionViewCell else {
             fatalError("Cannot create LocationCollectionViewCell")
         }
-        let category = emoji.sections[indexPath.section]
-        cell.configure(emoji.data[category]?[indexPath.row] ?? "0", "asd")
+//        let category = emoji.sections[indexPath.section]
+//        cell.configure(emoji.data[category]?[indexPath.row] ?? "0", "asd")
         return cell
     }
     

@@ -27,7 +27,7 @@ class EpisodesDataSource: NSObject, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier, for: indexPath) as? EpisodesCollectionViewCell else {
             fatalError("Cannot create EpisodesCollectionViewCell")
         }
-        let category = emoji.sections[indexPath.section]
+//        let category = emoji.sections[indexPath.section]
         cell.configure("S01E01", "Pilot", "DECEMBER 2, 2013")
         return cell
     }

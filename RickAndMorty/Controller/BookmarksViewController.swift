@@ -116,13 +116,13 @@ extension BookmarksViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationCollectionViewCell.reuseIdentifier, for: indexPath) as? LocationCollectionViewCell else {
                 fatalError("Cannot create BookmarksLocationCollectionViewCell")
             }
-            cell.configure("Earth (C-137)", "Planet")
+//            cell.configure("Earth (C-137)", "Planet")
             return cell
         } else if indexPath.section == 1 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier, for: indexPath) as? CharacterCollectionViewCell else {
                 fatalError("Cannot create CharacterCollectionViewCell")
             }
-            cell.configure(UIImage(named: "test")!)
+//            cell.configure(UIImage(named: "test")!)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier, for: indexPath) as? EpisodesCollectionViewCell else {

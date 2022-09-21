@@ -31,4 +31,8 @@ class TitleCollectionReusableView: UICollectionReusableView {
         backgroundColor = .white
         titleLabel.frame = CGRect(x: frame.width / 10 / 2, y: 0, width: frame.width, height: frame.height)
     }
+    
+    func configure(_ title: String) {
+        titleLabel.text = title
+    }
 }

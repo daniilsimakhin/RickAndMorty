@@ -11,6 +11,11 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = String(describing: CharacterCollectionViewCell.self)
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.style = .large
+        return view
+    }()
     private let characterImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
@@ -24,7 +29,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         view.spacing = 1
         return view
     }()
-    private let nameTextView: UILabel = {
+    private let nameLabel: UILabel = {
         let view = UILabel()
         view.font = .systemFont(ofSize: 100, weight: .semibold)
         view.adjustsFontSizeToFitWidth = true
@@ -32,7 +37,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         view.textAlignment = .left
         return view
     }()
-    private let statusTextView: UILabel = {
+    private let statusLabel: UILabel = {
         let view = UILabel()
         view.font = .systemFont(ofSize: 50, weight: .light)
         view.adjustsFontSizeToFitWidth = true
@@ -40,7 +45,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         view.textAlignment = .left
         return view
     }()
-    private let speciesTextView: UILabel = {
+    private let speciesLabel: UILabel = {
         let view = UILabel()
         view.font = .systemFont(ofSize: 50, weight: .light)
         view.adjustsFontSizeToFitWidth = true
@@ -59,25 +64,32 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        characterImageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.width)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.width)
+        activityIndicator.startAnimating()
+        stackView.frame = CGRect(x: 5, y: characterImageView.frame.maxY, width: frame.width - 10, height: frame.height - characterImageView.frame.height - 15)
         contentView.addSubview(characterImageView)
-        contentView.addSubview(UIView.createGradientLayer(frame))
+        contentView.addSubview(activityIndicator)
+        characterImageView.insertSubview(UIView.createGradientLayer(characterImageView.frame), at: 0)
         contentView.addSubview(stackView)
-        stackView.addArrangedSubview(nameTextView)
-        stackView.addArrangedSubview(statusTextView)
-        stackView.addArrangedSubview(speciesTextView)
+        stackView.addArrangedSubview(nameLabel)
+        stackView.addArrangedSubview(statusLabel)
+        stackView.addArrangedSubview(speciesLabel)
         
         clipsToBounds = true
         layer.cornerRadius = 20
         backgroundColor = .systemGray5
         
-        characterImageView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.width)
-        stackView.frame = CGRect(x: 5, y: characterImageView.frame.maxY, width: frame.width - 10, height: frame.height - characterImageView.frame.height - 15)
     }
     
-    func configure(_ image: UIImage) {
-        characterImageView.image = image
-        nameTextView.text = "Rick Sanchez"
-        statusTextView.text = "Alive"
-        speciesTextView.text = "Human"
+    func configure(_ character: Character) {
+        UIImage.download(character.image, completion: { image in
+            self.characterImageView.image = image
+            self.activityIndicator.stopAnimating()
+            self.nameLabel.text = character.name
+            self.statusLabel.text = character.status
+            self.speciesLabel.text = character.species
+            //проверить на утечки памяти
+        })
     }
 }

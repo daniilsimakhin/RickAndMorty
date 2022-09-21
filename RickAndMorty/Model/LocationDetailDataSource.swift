@@ -27,8 +27,8 @@ class LocationDetailDataSource: NSObject, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationCollectionViewCell.reuseIdentifier, for: indexPath) as? LocationCollectionViewCell else {
             fatalError("Cannot create LocationCollectionViewCell")
         }
-        let category = emoji.sections[indexPath.section]
-        cell.configure(emoji.data[category]?[indexPath.row] ?? "0", "")
+//        let category = emoji.sections[indexPath.section]
+//        cell.configure(emoji.data[category]?[indexPath.row] ?? "0", "")
         return cell
     }
     

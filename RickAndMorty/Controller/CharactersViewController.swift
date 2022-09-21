@@ -13,12 +13,25 @@ class CharactersViewController: UIViewController {
     }
 
     private var collectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Section, Int>!
+    private var characters: Characters?
+    var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
         createCollectionView()
+        NetworkService.shared.getCharacters { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.characters = data
+                var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Character>()
+                initialSnapshot.appendSections([.characters])
+                initialSnapshot.appendItems(self?.characters?.results ?? [], toSection: .characters)
+                self?.dataSource.apply(initialSnapshot, animatingDifferences: true)
+            case .failure(let error):
+                print("Error with get characters \(error.localizedDescription)")
+            }
+        }
     }
     
     private func setupViewController() {
@@ -48,17 +61,19 @@ class CharactersViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Section, Character>(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier, for: indexPath) as? CharacterCollectionViewCell else {
-                fatalError("Cannot create CharacterCollectionViewCell")
+                fatalError("Cannot create \(CharacterCollectionViewCell.self)")
             }
-            cell.configure(UIImage(named: "test")!)
+            if let character = self.characters?.results[indexPath.row] {
+                cell.configure(character)
+            }
             return cell
         })
-        var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Int>()
+        var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Character>()
         initialSnapshot.appendSections([.characters])
-        initialSnapshot.appendItems(Array(1...20), toSection: .characters)
+        initialSnapshot.appendItems(characters?.results ?? [], toSection: .characters)
         
         dataSource.apply(initialSnapshot, animatingDifferences: false)
     }
@@ -67,5 +82,14 @@ class CharactersViewController: UIViewController {
 extension CharactersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollViewSize = scrollView.contentSize.height - scrollView.frame.height + (tabBarController?.tabBar.frame.height ?? 0)
+        let scrollViewCurrentPosition = scrollViewSize - scrollView.contentOffset.y
+        if scrollViewCurrentPosition < scrollViewSize / 4 {
+            print(scrollViewCurrentPosition)
+            //Загрузка новой страницы
+        }
     }
 }

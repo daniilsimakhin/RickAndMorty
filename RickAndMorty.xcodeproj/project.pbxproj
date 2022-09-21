@@ -15,7 +15,6 @@
 		A52CBFDC28CF2F4C00BD59BB /* BookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFDB28CF2F4C00BD59BB /* BookmarksViewController.swift */; };
 		A52CBFE228CF5F2700BD59BB /* Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFE128CF5F2700BD59BB /* Emoji.swift */; };
 		A52CBFE428D056E500BD59BB /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFE328D056E500BD59BB /* DataSource.swift */; };
-		A52CBFE628D06B7500BD59BB /* EmojiCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFE528D06B7500BD59BB /* EmojiCollectionViewDelegate.swift */; };
 		A52CBFEA28D0700E00BD59BB /* TitleCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFE928D0700E00BD59BB /* TitleCollectionReusableView.swift */; };
 		A52CBFEC28D0791E00BD59BB /* LocationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFEB28D0791E00BD59BB /* LocationDetailViewController.swift */; };
 		A52CBFF128D0803C00BD59BB /* LocationDetailDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFF028D0803C00BD59BB /* LocationDetailDataSource.swift */; };
@@ -31,6 +30,15 @@
 		A5D784D528D320A300C60543 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5D784D428D320A300C60543 /* LaunchScreen.storyboard */; };
 		A5D784D728D44A3F00C60543 /* EpisodesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D784D628D44A3F00C60543 /* EpisodesDataSource.swift */; };
 		A5D784DA28D44BAF00C60543 /* EpisodesDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D784D928D44BAF00C60543 /* EpisodesDelegate.swift */; };
+		A5D802E928DA36BD00409C78 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802E828DA36BD00409C78 /* NetworkService.swift */; };
+		A5D802EC28DA422D00409C78 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802EB28DA422D00409C78 /* Character.swift */; };
+		A5D802EE28DA432900409C78 /* CharacterOrigin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802ED28DA432900409C78 /* CharacterOrigin.swift */; };
+		A5D802F028DA433800409C78 /* CharacterLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802EF28DA433800409C78 /* CharacterLocation.swift */; };
+		A5D802F328DA436800409C78 /* PageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802F228DA436800409C78 /* PageInfo.swift */; };
+		A5D802F528DA43BC00409C78 /* Characters.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802F428DA43BC00409C78 /* Characters.swift */; };
+		A5D802F728DB516800409C78 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802F628DB516800409C78 /* UIImage+Extensions.swift */; };
+		A5D802F928DB714C00409C78 /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802F828DB714C00409C78 /* Locations.swift */; };
+		A5D802FF28DB736900409C78 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D802FE28DB736900409C78 /* Location.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +51,6 @@
 		A52CBFDB28CF2F4C00BD59BB /* BookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewController.swift; sourceTree = "<group>"; };
 		A52CBFE128CF5F2700BD59BB /* Emoji.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Emoji.swift; sourceTree = "<group>"; };
 		A52CBFE328D056E500BD59BB /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		A52CBFE528D06B7500BD59BB /* EmojiCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		A52CBFE928D0700E00BD59BB /* TitleCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionReusableView.swift; sourceTree = "<group>"; };
 		A52CBFEB28D0791E00BD59BB /* LocationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailViewController.swift; sourceTree = "<group>"; };
 		A52CBFF028D0803C00BD59BB /* LocationDetailDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailDataSource.swift; sourceTree = "<group>"; };
@@ -60,6 +67,15 @@
 		A5D784D428D320A300C60543 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A5D784D628D44A3F00C60543 /* EpisodesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesDataSource.swift; sourceTree = "<group>"; };
 		A5D784D928D44BAF00C60543 /* EpisodesDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesDelegate.swift; sourceTree = "<group>"; };
+		A5D802E828DA36BD00409C78 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		A5D802EB28DA422D00409C78 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		A5D802ED28DA432900409C78 /* CharacterOrigin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterOrigin.swift; sourceTree = "<group>"; };
+		A5D802EF28DA433800409C78 /* CharacterLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterLocation.swift; sourceTree = "<group>"; };
+		A5D802F228DA436800409C78 /* PageInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageInfo.swift; sourceTree = "<group>"; };
+		A5D802F428DA43BC00409C78 /* Characters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters.swift; sourceTree = "<group>"; };
+		A5D802F628DB516800409C78 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		A5D802F828DB714C00409C78 /* Locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
+		A5D802FE28DB736900409C78 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +136,7 @@
 		A578BCB928CE1DF9000D6FF1 /* RickAndMorty */ = {
 			isa = PBXGroup;
 			children = (
+				A5D802E728DA36AD00409C78 /* Services */,
 				A5D784CF28D3187A00C60543 /* Extensions */,
 				A578BCF528CF26FB000D6FF1 /* Application */,
 				A578BCF428CF26F5000D6FF1 /* Resources */,
@@ -155,9 +172,9 @@
 		A578BCF328CF26F2000D6FF1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A5D802EA28DA422000409C78 /* Network */,
 				A52CBFE128CF5F2700BD59BB /* Emoji.swift */,
 				A52CBFE328D056E500BD59BB /* DataSource.swift */,
-				A52CBFE528D06B7500BD59BB /* EmojiCollectionViewDelegate.swift */,
 				A52CBFF028D0803C00BD59BB /* LocationDetailDataSource.swift */,
 				A5D784D628D44A3F00C60543 /* EpisodesDataSource.swift */,
 				A5D784D928D44BAF00C60543 /* EpisodesDelegate.swift */,
@@ -189,8 +206,63 @@
 			isa = PBXGroup;
 			children = (
 				A5D784D028D3189900C60543 /* UIView+Extensions.swift */,
+				A5D802F628DB516800409C78 /* UIImage+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A5D802E728DA36AD00409C78 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A5D802E828DA36BD00409C78 /* NetworkService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A5D802EA28DA422000409C78 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A5D802FD28DB733B00409C78 /* Common */,
+				A5D802FC28DB722D00409C78 /* Episodes */,
+				A5D802FB28DB722600409C78 /* Characters */,
+				A5D802FA28DB722000409C78 /* Locations */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		A5D802FA28DB722000409C78 /* Locations */ = {
+			isa = PBXGroup;
+			children = (
+				A5D802F828DB714C00409C78 /* Locations.swift */,
+				A5D802FE28DB736900409C78 /* Location.swift */,
+			);
+			path = Locations;
+			sourceTree = "<group>";
+		};
+		A5D802FB28DB722600409C78 /* Characters */ = {
+			isa = PBXGroup;
+			children = (
+				A5D802EB28DA422D00409C78 /* Character.swift */,
+				A5D802F428DA43BC00409C78 /* Characters.swift */,
+				A5D802EF28DA433800409C78 /* CharacterLocation.swift */,
+				A5D802ED28DA432900409C78 /* CharacterOrigin.swift */,
+			);
+			path = Characters;
+			sourceTree = "<group>";
+		};
+		A5D802FC28DB722D00409C78 /* Episodes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Episodes;
+			sourceTree = "<group>";
+		};
+		A5D802FD28DB733B00409C78 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				A5D802F228DA436800409C78 /* PageInfo.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,8 +338,10 @@
 				A5D784DA28D44BAF00C60543 /* EpisodesDelegate.swift in Sources */,
 				A52CBFDC28CF2F4C00BD59BB /* BookmarksViewController.swift in Sources */,
 				A5D784D728D44A3F00C60543 /* EpisodesDataSource.swift in Sources */,
-				A52CBFE628D06B7500BD59BB /* EmojiCollectionViewDelegate.swift in Sources */,
+				A5D802F328DA436800409C78 /* PageInfo.swift in Sources */,
+				A5D802EE28DA432900409C78 /* CharacterOrigin.swift in Sources */,
 				A52CBFF528D1D05F00BD59BB /* TitleWithDisclosureCollectionReusableView.swift in Sources */,
+				A5D802F028DA433800409C78 /* CharacterLocation.swift in Sources */,
 				A5D784D128D3189900C60543 /* UIView+Extensions.swift in Sources */,
 				A52CBFEA28D0700E00BD59BB /* TitleCollectionReusableView.swift in Sources */,
 				A52CBFE428D056E500BD59BB /* DataSource.swift in Sources */,
@@ -275,9 +349,12 @@
 				A52CBFD928CF293500BD59BB /* Constans.swift in Sources */,
 				A52CBFEC28D0791E00BD59BB /* LocationDetailViewController.swift in Sources */,
 				A52CBFD728CF290D00BD59BB /* MainTabBarController.swift in Sources */,
+				A5D802F528DA43BC00409C78 /* Characters.swift in Sources */,
 				A52CBFE228CF5F2700BD59BB /* Emoji.swift in Sources */,
 				A52CBFD528CF28B500BD59BB /* EpisodesViewController.swift in Sources */,
+				A5D802F928DB714C00409C78 /* Locations.swift in Sources */,
 				A578BCBB28CE1DF9000D6FF1 /* AppDelegate.swift in Sources */,
+				A5D802EC28DA422D00409C78 /* Character.swift in Sources */,
 				A52CBFF328D1BB6C00BD59BB /* EpisodesCollectionViewCell.swift in Sources */,
 				A5D784CC28D30EB400C60543 /* LocationCollectionViewCell.swift in Sources */,
 				A52CBFF128D0803C00BD59BB /* LocationDetailDataSource.swift in Sources */,
@@ -285,6 +362,9 @@
 				A52CBFCE28CF288D00BD59BB /* CharactersViewController.swift in Sources */,
 				A578BCBD28CE1DF9000D6FF1 /* SceneDelegate.swift in Sources */,
 				A52CBFD228CF28A500BD59BB /* LocationsViewController.swift in Sources */,
+				A5D802FF28DB736900409C78 /* Location.swift in Sources */,
+				A5D802E928DA36BD00409C78 /* NetworkService.swift in Sources */,
+				A5D802F728DB516800409C78 /* UIImage+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

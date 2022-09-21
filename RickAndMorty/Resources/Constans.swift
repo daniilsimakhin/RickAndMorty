@@ -35,10 +35,10 @@ struct Constans {
 
     struct Images {
         struct Tabbar {
-            static let locations = UIImage(systemName: "globe.asia.australia.fill")
-            static let characters = UIImage(systemName: "person.2.circle.fill")
-            static let episodes = UIImage(systemName: "play.circle.fill")
-            static let bookmarks = UIImage(systemName: "bookmark.circle.fill")
+            static let locations = "globe.asia.australia"
+            static let characters = "person.2.circle"
+            static let episodes = "play.circle"
+            static let bookmarks = "bookmark.circle"
         }
     }
 }
