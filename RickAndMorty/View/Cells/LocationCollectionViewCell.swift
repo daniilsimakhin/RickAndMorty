@@ -52,10 +52,12 @@ class LocationCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(typeLabel)
         stackView.addArrangedSubview(dimensionLabel)
         contentView.addSubview(UIView.createGradientLayer(frame))
+        
         layer.borderColor = UIColor.black.cgColor
-        layer.borderWidth = 0.15
+        layer.borderWidth = 0.1
         clipsToBounds = true
         layer.cornerRadius = 20
+        
         stackView.frame = CGRect(x: 20, y: 10, width: contentView.frame.width - 40, height: contentView.frame.height - 20)
     }
     
