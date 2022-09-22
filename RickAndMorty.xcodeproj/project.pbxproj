@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A527ACBB28DCD46C00F9B37A /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527ACBA28DCD46C00F9B37A /* Network.swift */; };
+		A527ACBD28DCD6DC00F9B37A /* Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527ACBC28DCD6DC00F9B37A /* Episodes.swift */; };
+		A527ACBF28DCD78400F9B37A /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A527ACBE28DCD78400F9B37A /* Episode.swift */; };
 		A52CBFCE28CF288D00BD59BB /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFCD28CF288D00BD59BB /* CharactersViewController.swift */; };
 		A52CBFD228CF28A500BD59BB /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFD128CF28A500BD59BB /* LocationsViewController.swift */; };
 		A52CBFD528CF28B500BD59BB /* EpisodesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52CBFD428CF28B500BD59BB /* EpisodesViewController.swift */; };
@@ -42,6 +45,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A527ACBA28DCD46C00F9B37A /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		A527ACBC28DCD6DC00F9B37A /* Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episodes.swift; sourceTree = "<group>"; };
+		A527ACBE28DCD78400F9B37A /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		A52CBFCB28CF276500BD59BB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A52CBFCD28CF288D00BD59BB /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
 		A52CBFD128CF28A500BD59BB /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				A5D802E828DA36BD00409C78 /* NetworkService.swift */,
+				A527ACBA28DCD46C00F9B37A /* Network.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -253,6 +260,8 @@
 		A5D802FC28DB722D00409C78 /* Episodes */ = {
 			isa = PBXGroup;
 			children = (
+				A527ACBC28DCD6DC00F9B37A /* Episodes.swift */,
+				A527ACBE28DCD78400F9B37A /* Episode.swift */,
 			);
 			path = Episodes;
 			sourceTree = "<group>";
@@ -340,15 +349,18 @@
 				A5D784D728D44A3F00C60543 /* EpisodesDataSource.swift in Sources */,
 				A5D802F328DA436800409C78 /* PageInfo.swift in Sources */,
 				A5D802EE28DA432900409C78 /* CharacterOrigin.swift in Sources */,
+				A527ACBD28DCD6DC00F9B37A /* Episodes.swift in Sources */,
 				A52CBFF528D1D05F00BD59BB /* TitleWithDisclosureCollectionReusableView.swift in Sources */,
 				A5D802F028DA433800409C78 /* CharacterLocation.swift in Sources */,
 				A5D784D128D3189900C60543 /* UIView+Extensions.swift in Sources */,
+				A527ACBB28DCD46C00F9B37A /* Network.swift in Sources */,
 				A52CBFEA28D0700E00BD59BB /* TitleCollectionReusableView.swift in Sources */,
 				A52CBFE428D056E500BD59BB /* DataSource.swift in Sources */,
 				A578BCC528CE1DF9000D6FF1 /* RickAndMorty.xcdatamodeld in Sources */,
 				A52CBFD928CF293500BD59BB /* Constans.swift in Sources */,
 				A52CBFEC28D0791E00BD59BB /* LocationDetailViewController.swift in Sources */,
 				A52CBFD728CF290D00BD59BB /* MainTabBarController.swift in Sources */,
+				A527ACBF28DCD78400F9B37A /* Episode.swift in Sources */,
 				A5D802F528DA43BC00409C78 /* Characters.swift in Sources */,
 				A52CBFE228CF5F2700BD59BB /* Emoji.swift in Sources */,
 				A52CBFD528CF28B500BD59BB /* EpisodesViewController.swift in Sources */,
