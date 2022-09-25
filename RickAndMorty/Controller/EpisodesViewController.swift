@@ -38,15 +38,7 @@ class EpisodesViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         createCollectionView()
-        ServiceLayer.request(router: .getEpisodes(page: page)) { (result:  Result<Episodes, Error>) in
-            switch result {
-            case .success(let success):
-                self.episodes = success
-                self.collectionView.reloadData()
-            case .failure(let failure):
-                print(failure)
-            }
-        }
+        setPage(at: page)
         //проверить на утечку памяти
     }
     
@@ -87,6 +79,14 @@ class EpisodesViewController: UIViewController {
         default:
             return
         }
+    }
+    
+    private func setPage(at value: Int) {
+        if let info = episodes?.info {
+            if page + value > 0 && page + value <= info.pages {
+                page += value
+            }
+        }
         ServiceLayer.request(router: .getEpisodes(page: page)) { (result:  Result<Episodes, Error>) in
             switch result {
             case .success(let success):
@@ -96,14 +96,6 @@ class EpisodesViewController: UIViewController {
                 print(failure)
             }
             //проверить на утечку памяти
-        }
-    }
-    
-    private func setPage(at value: Int) {
-        if let info = episodes?.info {
-            if page + value > 0 && page + value <= info.pages {
-                page += value
-            }
         }
     }
 }

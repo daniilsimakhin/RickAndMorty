@@ -31,7 +31,7 @@ class NetworkService {
             }
             do {
                 let decodedData = try JSONDecoder().decode(Characters.self, from: safeData)
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     completion(.success(decodedData))
                 }
             } catch {
@@ -50,7 +50,7 @@ class NetworkService {
             }
             do {
                 let decodedData = try JSONDecoder().decode(Locations.self, from: safeData)
-                DispatchQueue.main.sync {
+                DispatchQueue.main.async {
                     completion(.success(decodedData))
                 }
             } catch {

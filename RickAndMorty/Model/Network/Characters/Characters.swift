@@ -9,5 +9,6 @@ import Foundation
 
 struct Characters: Decodable {
     let info: PageInfo
-    let results: [Character]
+    var results: [Character]
+    #warning("@ToDo: Вернуть иммутабельность структурке")
 }

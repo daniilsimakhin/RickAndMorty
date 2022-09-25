@@ -64,8 +64,11 @@ enum Router {
 }
 
 class ServiceLayer {
+    
+    static var pagination = false
+    
     class func request<T: Decodable>(router: Router, completion: @escaping (Result<T, Error>) -> ()) {
-        
+        pagination = true
         var components = URLComponents()
         components.scheme = router.scheme
         components.host = router.host
@@ -91,9 +94,8 @@ class ServiceLayer {
             
             let responseObject = try! JSONDecoder().decode(T.self, from: data)
             
-            DispatchQueue.main.async {
-                completion(.success(responseObject))
-            }
+            completion(.success(responseObject))
+            pagination = false
         }
         dataTask.resume()
     }

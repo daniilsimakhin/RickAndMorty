@@ -12,32 +12,37 @@ class CharactersViewController: UIViewController {
         case characters
     }
 
-    private var collectionView: UICollectionView!
+    private var page = 1
     private var characters: Characters?
     var dataSource: UICollectionViewDiffableDataSource<Section, Character>!
+    private var refreshControl = UIRefreshControl()
+    private var collectionView: UICollectionView!
+    private let countLabel: UILabel = {
+        let view = UILabel()
+        view.backgroundColor = .systemOrange.withAlphaComponent(0.5)
+        view.textColor = .black.withAlphaComponent(0.75)
+        view.font = .systemFont(ofSize: 15, weight: .bold)
+        view.numberOfLines = 1
+        view.textAlignment = .center
+        view.layer.cornerRadius = 8.5
+        view.clipsToBounds = true
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
         createCollectionView()
-        NetworkService.shared.getCharacters { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.characters = data
-                var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Character>()
-                initialSnapshot.appendSections([.characters])
-                initialSnapshot.appendItems(self?.characters?.results ?? [], toSection: .characters)
-                self?.dataSource.apply(initialSnapshot, animatingDifferences: true)
-            case .failure(let error):
-                print("Error with get characters \(error.localizedDescription)")
-            }
-        }
+        setPage(at: page)
     }
+    
+    //MARK: - Private func
     
     private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = Constans.Text.Titles.characters
         view.backgroundColor = .systemGreen
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     private func createCollectionView() {
@@ -45,7 +50,10 @@ class CharactersViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier)
         configureDataSource()
+        collectionView.refreshControl = refreshControl
+        collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
+        collectionView.addSubview(countLabel)
     }
     
     private func configureLayout() -> UICollectionViewCompositionalLayout {
@@ -77,19 +85,62 @@ class CharactersViewController: UIViewController {
         
         dataSource.apply(initialSnapshot, animatingDifferences: false)
     }
+    
+    private func setPage(at value: Int) {
+        guard ServiceLayer.pagination == false else { return }
+        if page == characters?.info.pages { return }
+        if let info = characters?.info {
+            if page + value > 0 && page + value <= info.pages {
+                page += value
+            }
+        }
+        ServiceLayer.request(router: .getCharacters(page: page)) { [weak self] (result: Result<Characters, Error>) in
+            switch result {
+            case .success(let success):
+                if self?.characters == nil {
+                    self?.characters = success
+                } else {
+                    self?.characters?.results.append(contentsOf: success.results)
+                }
+                var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Character>()
+                initialSnapshot.appendSections([.characters])
+                initialSnapshot.appendItems(self?.characters?.results ?? [], toSection: .characters)
+                DispatchQueue.main.async {
+                    self?.dataSource.apply(initialSnapshot, animatingDifferences: true)
+                    self?.countLabel.text = "\(self?.characters?.results.count ?? 0)/\(self!.characters?.info.count ?? 0)"
+                }
+            case .failure(let failure):
+                print("Error with get characters \(failure.localizedDescription)")
+            }
+        }
+    }
+    
+    //MARK: - @objc private func
+    
+    @objc private func refresh() {
+        refreshControl.endRefreshing()
+    }
 }
 
+//MARK: - UICollectionViewDelegate
+
 extension CharactersViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollViewSize = scrollView.contentSize.height - scrollView.frame.height + (tabBarController?.tabBar.frame.height ?? 0)
-        let scrollViewCurrentPosition = scrollViewSize - scrollView.contentOffset.y
-        if scrollViewCurrentPosition < scrollViewSize / 4 {
-            print(scrollViewCurrentPosition)
-            //Загрузка новой страницы
+        let navBarHeight = navigationController!.navigationBar.subviews[0].frame.height - 0.5
+        let tabBarHeight = tabBarController!.tabBar.frame.height
+        let localHeight = scrollView.contentSize.height - scrollView.frame.height + navBarHeight + tabBarHeight
+        let currentPosition = scrollView.contentOffset.y + navBarHeight
+        let normalizeCurrentPosition = currentPosition / localHeight
+        if localHeight - currentPosition < 100 && localHeight - currentPosition > -100 {
+            setPage(at: 1)
         }
+        let position = normalizeCurrentPosition * (scrollView.contentSize.height - 25)
+        countLabel.frame = CGRect(x: view.frame.width - 75, y: position, width: 70, height: 20)
+        countLabel.text = "\(characters?.results.count ?? 0)/\(characters?.info.count ?? 0)"
     }
 }

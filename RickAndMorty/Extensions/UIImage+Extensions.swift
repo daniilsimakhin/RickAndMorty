@@ -7,11 +7,10 @@
 
 import UIKit
 
-let imageCache = NSCache<NSString, UIImage>()
+fileprivate let imageCache = NSCache<NSString, UIImage>()
 extension UIImage {
     static func download(_ urlString: String, completion: @escaping (_ image: UIImage?) -> ()) {
         if let image = imageCache.object(forKey: urlString as NSString) {
-            print("Get image from cache")
             completion(image)
         } else {
             guard let url = URL(string: urlString) else { return }
@@ -23,7 +22,6 @@ extension UIImage {
                 }
                 DispatchQueue.main.async {
                     imageCache.setObject(image, forKey: urlString as NSString)
-                    print("Get image from url")
                     completion(image)
                 }
             }.resume()
