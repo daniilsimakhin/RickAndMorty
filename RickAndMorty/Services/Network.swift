@@ -11,7 +11,8 @@ enum Router {
     case getLocations(page: Int)
     case getCharacters(page: Int)
     case getEpisodes(page: Int)
-    
+    case getMultipleEpisodes(members: [String])
+
     var page: Int {
         switch self {
         case .getLocations(let page):
@@ -20,19 +21,30 @@ enum Router {
             return page
         case .getEpisodes(let page):
             return page
+        case .getMultipleEpisodes:
+            return 0
+        }
+    }
+    
+    var members: String {
+        switch self {
+        case .getLocations, .getCharacters, .getEpisodes:
+            return ""
+        case .getMultipleEpisodes(let members):
+            return members.joined(separator: ",")
         }
     }
     
     var scheme: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes:
             return "https"
         }
     }
     
     var host: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes:
             return "rickandmortyapi.com"
         }
     }
@@ -45,6 +57,8 @@ enum Router {
             return "/api/character"
         case .getEpisodes:
             return "/api/episode"
+        case .getMultipleEpisodes:
+            return "/api/episode/\(members)"
         }
     }
     
@@ -52,12 +66,14 @@ enum Router {
         switch self {
         case .getLocations, .getCharacters, .getEpisodes:
             return [URLQueryItem(name: "page", value: "\(page)")]
+        case .getMultipleEpisodes:
+            return []
         }
     }
     
     var method: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes:
             return "GET"
         }
     }
@@ -74,7 +90,7 @@ class ServiceLayer {
         components.host = router.host
         components.path = router.path
         components.queryItems = router.parameters
-        
+        print(components.url?.absoluteString)
         guard let url = components.url else { return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = router.method

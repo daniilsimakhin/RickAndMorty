@@ -10,7 +10,7 @@ import UIKit
 class LocationDetailViewController: UIViewController {
     
     private var collectionView: UICollectionView!
-    private let dataSource = DataSource()
+//    private let dataSource = DataSource()
 //    private let delegate = EmojiCollectionViewDelegate()
     
     override func viewDidLoad() {
@@ -21,7 +21,7 @@ class LocationDetailViewController: UIViewController {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: configureLayout())
         collectionView.register(LocationCollectionViewCell.self, forCellWithReuseIdentifier: LocationCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
-        collectionView.dataSource = dataSource
+//        collectionView.dataSource = dataSource
 //        collectionView.delegate = delegate
         view.addSubview(collectionView)
     }

@@ -127,10 +127,15 @@ class CharactersViewController: UIViewController {
 extension CharactersViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
+        guard let character = characters?.results[indexPath.row] else { return }
+        let detailVC = DetailViewController()
+        detailVC.configure(character)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        countLabel.backgroundColor = .systemOrange.withAlphaComponent(0.5)
+        countLabel.textColor = .black.withAlphaComponent(0.75)
         let navBarHeight = navigationController!.navigationBar.subviews[0].frame.height - 0.5
         let tabBarHeight = tabBarController!.tabBar.frame.height
         let localHeight = scrollView.contentSize.height - scrollView.frame.height + navBarHeight + tabBarHeight
@@ -142,5 +147,13 @@ extension CharactersViewController: UICollectionViewDelegate {
         let position = normalizeCurrentPosition * (scrollView.contentSize.height - 25)
         countLabel.frame = CGRect(x: view.frame.width - 75, y: position, width: 70, height: 20)
         countLabel.text = "\(characters?.results.count ?? 0)/\(characters?.info.count ?? 0)"
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.1, delay: 1, options: .showHideTransitionViews) {
+            self.countLabel.backgroundColor = .systemOrange.withAlphaComponent(0)
+            self.countLabel.textColor = .black.withAlphaComponent(0)
+        } completion: { _ in }
+
     }
 }

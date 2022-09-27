@@ -1,65 +1,47 @@
 //
-//  LocationsViewController.swift
+//  LocationView.swift
 //  RickAndMorty
 //
-//  Created by Даниил Симахин on 12.09.2022.
+//  Created by Даниил Симахин on 27.09.2022.
 //
 
 import UIKit
 
-enum Section {
-    case locations
-}
-class LocationsViewController: UIViewController {
-    
+class LocationView: UIView {
+
     private var collectionView: UICollectionView!
-    private var locations: Locations?
+    private var locations: Locations!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Location>!
-    private lazy var locationView = LocationView()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupViewController()
-//        createCollectionView()
-        locationView.frame = view.frame
-        NetworkService.shared.getLocations { [weak self] result in
-            switch result {
-            case .success(let data):
-                self?.locations = data
-//                var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Location>()
-//                initialSnapshot.appendSections([.locations])
-//                initialSnapshot.appendItems(self?.locations?.results ?? [], toSection: .locations)
-//
-//                self?.dataSource.apply(initialSnapshot, animatingDifferences: true)
-                
-//                self?.dataSource.apply(initialSnapshot, animatingDifferences: true)
-                self?.locationView.configure(data)
-                self?.view = self?.locationView
-            case .failure(let error):
-                print("Error with get locations \(error.localizedDescription)")
-            }
-        }
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Private func
     
     private func setupViewController() {
-        navigationController?.navigationBar.prefersLargeTitles = true
-        title = Constans.Text.Titles.locations
-        view.backgroundColor = .systemRed
+        isUserInteractionEnabled = true
     }
-    
+
     private func createCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: configureLayout())
+        collectionView = UICollectionView(frame: bounds, collectionViewLayout: configureLayout())
+        print(bounds)
         collectionView.delegate = self
         collectionView.register(LocationCollectionViewCell.self, forCellWithReuseIdentifier: LocationCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
         configureDataSource()
-        view.addSubview(collectionView)
+        addSubview(collectionView)
     }
     
     private func configureLayout() -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 30)
+        layout.headerReferenceSize = CGSize(width: frame.width, height: 30)
         return layout
     }
     
@@ -68,9 +50,7 @@ class LocationsViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationCollectionViewCell.reuseIdentifier, for: indexPath) as? LocationCollectionViewCell else {
                 fatalError("Cannot create \(LocationCollectionViewCell.self)")
             }
-            if let location = self.locations?.results[indexPath.row] {
-                cell.configure(location)
-            }
+            cell.configure(self.locations.results[indexPath.row])
             return cell
         })
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
@@ -84,15 +64,25 @@ class LocationsViewController: UIViewController {
             view?.configure("Test")
             return view
         }
-        var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Location>()
-        initialSnapshot.appendSections([.locations])
-        initialSnapshot.appendItems(locations?.results ?? [], toSection: .locations)
-        
-        dataSource.apply(initialSnapshot, animatingDifferences: true)
+        createSnapshot(section: .locations, locations: locations)
+    }
+    
+    private func createSnapshot(section: Section, locations: Locations) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Location>()
+        snapshot.appendSections([section])
+        snapshot.appendItems(locations.results, toSection: section)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    //MARK: - Public func
+    
+    func configure(_ locations: Locations) {
+        self.locations = locations
+        self.createCollectionView()
     }
 }
 
-extension LocationsViewController: UICollectionViewDelegateFlowLayout {
+extension LocationView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width - 20, height: 90)
     }

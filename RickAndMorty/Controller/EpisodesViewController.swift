@@ -90,8 +90,10 @@ class EpisodesViewController: UIViewController {
         ServiceLayer.request(router: .getEpisodes(page: page)) { (result:  Result<Episodes, Error>) in
             switch result {
             case .success(let success):
-                self.episodes = success
-                self.collectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.episodes = success
+                    self.collectionView.reloadData()
+                }
             case .failure(let failure):
                 print(failure)
             }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct Character: Decodable, Hashable {
-    
+      
     let id: Int
     let name: String
     let status: String

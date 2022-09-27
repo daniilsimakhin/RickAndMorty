@@ -11,7 +11,7 @@ class TitleCollectionReusableView: UICollectionReusableView {
     
     static let reuseIdentifier = String(describing: TitleCollectionReusableView.self)
     
-    let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.font = .preferredFont(forTextStyle: .title2)
         return titleLabel
