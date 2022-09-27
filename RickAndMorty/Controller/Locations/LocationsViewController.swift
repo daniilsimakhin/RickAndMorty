@@ -10,8 +10,12 @@ import UIKit
 class LocationsViewController: UIViewController {
     
     //MARK: - Private variables
-    private var locationView: LocationView!
-    private var locations: Locations!
+    private var locationsView: LocationsView!
+    private var locations: Locations! {
+        didSet {
+            locationsView.configure(locations)
+        }
+    }
     
     //MARK: - Func view controllers
     override func viewDidLoad() {
@@ -20,7 +24,7 @@ class LocationsViewController: UIViewController {
         NetworkService.shared.getLocations { [weak self] result in
             switch result {
             case .success(let data):
-                self?.locationView.configure(data)
+                self?.locations = data
             case .failure(let error):
                 print("Error with get locations \(error.localizedDescription)")
             }
@@ -31,14 +35,14 @@ class LocationsViewController: UIViewController {
     private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = Constans.Text.Titles.locations
-        locationView = LocationView(frame: view.frame)
-        locationView.delegate = self
-        view = locationView
+        locationsView = LocationsView(frame: view.frame)
+        locationsView.delegate = self
+        view = locationsView
     }
 }
 
-//MARK: - LocationViewTapHandler
-extension LocationsViewController: LocationViewTapHandler {
+//MARK: - LocationsViewTapHandler
+extension LocationsViewController: LocationsViewTapHandler {
     
     func pressedOnCell(_ indexPath: IndexPath) {
         print(locations.results[indexPath.row].name)

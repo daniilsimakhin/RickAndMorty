@@ -1,5 +1,5 @@
 //
-//  LocationView.swift
+//  LocationsView.swift
 //  RickAndMorty
 //
 //  Created by Даниил Симахин on 27.09.2022.
@@ -11,14 +11,14 @@ enum Section {
     case locations
 }
 
-protocol LocationViewTapHandler {
+protocol LocationsViewTapHandler {
     func pressedOnCell(_ indexPath: IndexPath)
 }
 
-class LocationView: UIView {
+class LocationsView: UIView {
     
     //MARK: - Public variables
-    var delegate: LocationViewTapHandler!
+    var delegate: LocationsViewTapHandler!
     
     //MARK: - Private variables
     private var collectionView: UICollectionView!
@@ -93,7 +93,7 @@ class LocationView: UIView {
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
-extension LocationView: UICollectionViewDelegateFlowLayout {
+extension LocationsView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width - 20, height: 90)
     }
