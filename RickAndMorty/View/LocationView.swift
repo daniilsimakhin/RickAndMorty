@@ -7,12 +7,25 @@
 
 import UIKit
 
-class LocationView: UIView {
+enum Section {
+    case locations
+}
 
+protocol LocationViewTapHandler {
+    func pressedOnCell(_ indexPath: IndexPath)
+}
+
+class LocationView: UIView {
+    
+    //MARK: - Public variables
+    var delegate: LocationViewTapHandler!
+    
+    //MARK: - Private variables
     private var collectionView: UICollectionView!
     private var locations: Locations!
     private var dataSource: UICollectionViewDiffableDataSource<Section, Location>!
     
+    //MARK: - Func view
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViewController()
@@ -23,14 +36,12 @@ class LocationView: UIView {
     }
     
     //MARK: - Private func
-    
     private func setupViewController() {
         isUserInteractionEnabled = true
     }
 
     private func createCollectionView() {
         collectionView = UICollectionView(frame: bounds, collectionViewLayout: configureLayout())
-        print(bounds)
         collectionView.delegate = self
         collectionView.register(LocationCollectionViewCell.self, forCellWithReuseIdentifier: LocationCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
@@ -75,13 +86,13 @@ class LocationView: UIView {
     }
     
     //MARK: - Public func
-    
     func configure(_ locations: Locations) {
         self.locations = locations
-        self.createCollectionView()
+        createCollectionView()
     }
 }
 
+//MARK: - UICollectionViewDelegateFlowLayout
 extension LocationView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width - 20, height: 90)
@@ -93,5 +104,9 @@ extension LocationView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate.pressedOnCell(indexPath)
     }
 }
