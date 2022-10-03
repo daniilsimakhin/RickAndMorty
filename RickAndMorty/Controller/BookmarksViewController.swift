@@ -14,17 +14,18 @@ enum TabBarSection: String, CaseIterable {
 }
 
 class BookmarksViewController: UIViewController {
-    
-    
+    //MARK: - Variables
     private var collectionView: UICollectionView!
     private var data: [TabBarSection: Int] = [.locations: 12, .characters: 10, .episodes: 10]
     
+    //MARK: - View func
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
         createCollectionView()
     }
     
+    //MARK: - Private func
     private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
         title = C.Text.Titles.bookmarks
@@ -43,15 +44,15 @@ class BookmarksViewController: UIViewController {
     
     private func configureLayout() -> UICollectionViewCompositionalLayout {
         let layout = UICollectionViewCompositionalLayout(sectionProvider: { sectionNumber, env in
-            switch sectionNumber {
-            case 0:
+            let section = TabBarSection.allCases[sectionNumber]
+            switch section {
+            case .locations:
                 return self.createLocationsSection()
-            case 1:
+            case .characters:
                 return self.createCharactersSection()
-            default:
+            case .episodes:
                 return self.createEpisodesSection()
-            }
-        })
+            }})
         return layout
     }
     
@@ -138,7 +139,7 @@ extension BookmarksViewController: UICollectionViewDataSource {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TitleWithDisclosureCollectionReusableView.reuseIdentifier, for: indexPath) as? TitleWithDisclosureCollectionReusableView else {
             fatalError("Cannot create TitleWithDisclosureCollectionReusableView")
         }
-        let section = Section.allCases[indexPath.section].rawValue
+        let section = TabBarSection.allCases[indexPath.section].rawValue
         header.configure(section)
         return header
     }
