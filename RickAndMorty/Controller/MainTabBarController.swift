@@ -8,36 +8,29 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-    
+    //MARK: - View func
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
     }
     
-    func setupTabBar() {
-        
-        let locationsNavigationViewController = UINavigationController(rootViewController: LocationsViewController())
-        let charactersNavigationViewController = UINavigationController(rootViewController: CharactersViewController())
-        let episodesNavigationViewController = UINavigationController(rootViewController: EpisodesViewController())
-        let bookmarksNavigationViewController = UINavigationController(rootViewController: BookmarksViewController())
-        
-        locationsNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.locations, image: UIImage(systemName: C.Images.Tabbar.locations), tag: 0)
-        locationsNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.locations).fill")
-        
-        charactersNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.characters, image: UIImage(systemName: C.Images.Tabbar.characters), tag: 1)
-        charactersNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.characters).fill")
-        
-        episodesNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.episodes, image: UIImage(systemName: C.Images.Tabbar.episodes), tag: 2)
-        episodesNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.episodes).fill")
-        
-        bookmarksNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.bookmarks, image: UIImage(systemName: C.Images.Tabbar.bookmarks), tag: 3)
-        bookmarksNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.bookmarks).fill")
-        
-        setViewControllers([locationsNavigationViewController, charactersNavigationViewController, episodesNavigationViewController, bookmarksNavigationViewController], animated: true)
+    //MARK: - Private func
+    private func setupTabBar() {
+        setViewControllers([
+            createNavigationController(LocationsViewController(), C.Text.Tabbar.locations, C.Images.Tabbar.locations),
+            createNavigationController(CharactersViewController(), C.Text.Tabbar.characters, C.Images.Tabbar.characters),
+            createNavigationController(EpisodesViewController(), C.Text.Tabbar.episodes, C.Images.Tabbar.episodes),
+            createNavigationController(BookmarksViewController(), C.Text.Tabbar.bookmarks, C.Images.Tabbar.bookmarks)
+        ], animated: true)
         
         tabBar.tintColor = C.Colors.Tabbar.tabBarTint
         tabBar.backgroundColor = C.Colors.Tabbar.tabBarBackground
         tabBar.unselectedItemTintColor = C.Colors.Tabbar.unselectedItemTint
     }
     
+    private func createNavigationController(_ viewController: UIViewController, _ title: String, _ imageName: String) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), selectedImage: UIImage(systemName: "\(imageName).fill"))
+        return navigationController
+    }
 }
