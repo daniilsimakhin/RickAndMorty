@@ -8,9 +8,17 @@
 import UIKit
 
 class LocationCollectionViewCell: UICollectionViewCell {
-    
+    //MARK: - Variables
     static let reuseIdentifier = String(describing: LocationCollectionViewCell.self)
+    var location: Location! {
+        didSet {
+            nameLabel.text = location.name
+            typeLabel.text = location.type
+            dimensionLabel.text = location.dimension
+        }
+    }
     
+    //MARK: - UI
     private let stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -37,6 +45,7 @@ class LocationCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    //MARK: - Func view
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -46,6 +55,7 @@ class LocationCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Private func
     private func setupUI() {
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(nameLabel)
@@ -60,11 +70,5 @@ class LocationCollectionViewCell: UICollectionViewCell {
         layer.borderWidth = 0.1
         
         stackView.frame = CGRect(x: 20, y: 10, width: contentView.frame.width - 40, height: contentView.frame.height - 20)
-    }
-    
-    func configure(_ location: Location) {
-        nameLabel.text = location.name
-        typeLabel.text = location.type
-        dimensionLabel.text = location.dimension
     }
 }

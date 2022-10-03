@@ -8,24 +8,25 @@
 import Foundation
 import UIKit
 
-struct Constans {
-    struct Colors {
-        struct Tabbar {
+typealias C = Constans
+enum Constans {
+    enum Colors {
+        enum Tabbar {
             static let unselectedItemTint = UIColor(named: "unselectedItemTint")
             static let tabBarBackground = UIColor(named: "tabBarBackground")
             static let tabBarTint = UIColor(named: "tabBarTint")
         }
     }
 
-    struct Text {
-        struct Tabbar {
+    enum Text {
+        enum Tabbar {
             static let locations = "Locations"
             static let characters = "Characters"
             static let episodes = "Episodes"
             static let bookmarks = "Bookmarks"
         }
         
-        struct Titles {
+        enum Titles {
             static let locations = "Locations"
             static let characters = "Characters"
             static let episodes = "Episodes"
@@ -33,8 +34,8 @@ struct Constans {
         }
     }
 
-    struct Images {
-        struct Tabbar {
+    enum Images {
+        enum Tabbar {
             static let locations = "globe.asia.australia"
             static let characters = "person.2.circle"
             static let episodes = "play.circle"

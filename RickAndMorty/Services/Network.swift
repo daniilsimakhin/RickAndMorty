@@ -11,7 +11,11 @@ enum Router {
     case getLocations(page: Int)
     case getCharacters(page: Int)
     case getEpisodes(page: Int)
+    
     case getMultipleEpisodes(members: [String])
+    case getMultipleCharacters(members: [String])
+    
+    case getCharacter(at: Int)
 
     var page: Int {
         switch self {
@@ -21,30 +25,32 @@ enum Router {
             return page
         case .getEpisodes(let page):
             return page
-        case .getMultipleEpisodes:
+        case .getCharacter(let at):
+            return at
+        case .getMultipleEpisodes, .getMultipleCharacters:
             return 0
         }
     }
     
     var members: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getCharacter:
             return ""
-        case .getMultipleEpisodes(let members):
+        case .getMultipleEpisodes(let members), .getMultipleCharacters(let members):
             return members.joined(separator: ",")
         }
     }
     
     var scheme: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes, .getMultipleCharacters, .getCharacter:
             return "https"
         }
     }
     
     var host: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes, .getMultipleCharacters, .getCharacter:
             return "rickandmortyapi.com"
         }
     }
@@ -59,6 +65,10 @@ enum Router {
             return "/api/episode"
         case .getMultipleEpisodes:
             return "/api/episode/\(members)"
+        case .getMultipleCharacters:
+            return "/api/character/\(members)"
+        case .getCharacter:
+            return "/api/character/\(page)"
         }
     }
     
@@ -66,14 +76,14 @@ enum Router {
         switch self {
         case .getLocations, .getCharacters, .getEpisodes:
             return [URLQueryItem(name: "page", value: "\(page)")]
-        case .getMultipleEpisodes:
+        case .getMultipleEpisodes, .getMultipleCharacters, .getCharacter:
             return []
         }
     }
     
     var method: String {
         switch self {
-        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes:
+        case .getLocations, .getCharacters, .getEpisodes, .getMultipleEpisodes, .getMultipleCharacters, .getCharacter:
             return "GET"
         }
     }
@@ -90,7 +100,7 @@ class ServiceLayer {
         components.host = router.host
         components.path = router.path
         components.queryItems = router.parameters
-        print(components.url?.absoluteString)
+        
         guard let url = components.url else { return }
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = router.method
@@ -109,8 +119,9 @@ class ServiceLayer {
             }
             
             let responseObject = try! JSONDecoder().decode(T.self, from: data)
-            
-            completion(.success(responseObject))
+            DispatchQueue.main.async {
+                completion(.success(responseObject))
+            }
             pagination = false
         }
         dataTask.resume()

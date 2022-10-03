@@ -1,5 +1,5 @@
 //
-//  EpisodesCollectionViewCell.swift
+//  EpisodeCollectionViewCell.swift
 //  RickAndMorty
 //
 //  Created by Даниил Симахин on 14.09.2022.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class EpisodesCollectionViewCell: UICollectionViewCell {
+class EpisodeCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = String(describing: EpisodesCollectionViewCell.self)
+    static let reuseIdentifier = String(describing: EpisodeCollectionViewCell.self)
     
     private let episodeTextView: UILabel = {
         let view = UILabel()
@@ -43,10 +43,10 @@ class EpisodesCollectionViewCell: UICollectionViewCell {
         episodeTextView.frame = CGRect(x: 20, y: 0, width: contentView.frame.width - 40, height: contentView.frame.height)
     }
     
-    func configure(_ season: String, _ name: String, _ date: String) {
-        let attributedText = NSMutableAttributedString(string: "\(name)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20 , weight: .bold)])
-        attributedText.append(NSAttributedString(string: "\n\(season)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium)]))
-        attributedText.append(NSAttributedString(string: "\n\(date)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 10, weight: .light)]))
+    func configure(_ episode: Episode) {
+        let attributedText = NSMutableAttributedString(string: "\(episode.name)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20 , weight: .bold)])
+        attributedText.append(NSAttributedString(string: "\n\(episode.episode)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium)]))
+        attributedText.append(NSAttributedString(string: "\n\(episode.air_date)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 10, weight: .light)]))
         episodeTextView.attributedText = attributedText
     }
 }

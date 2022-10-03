@@ -10,23 +10,22 @@ import UIKit
 class LocationsViewController: UIViewController {
     
     //MARK: - Private variables
+    private var locations: Locations!
     private var locationsView: LocationsView!
-    private var locations: Locations! {
-        didSet {
-            locationsView.configure(locations)
-        }
-    }
+    private var dataSource: UICollectionViewDiffableDataSource<TabBarSection, Location>!
+    private var page = 1
     
     //MARK: - Func view controllers
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewController()
-        NetworkService.shared.getLocations { [weak self] result in
+        ServiceLayer.request(router: .getLocations(page: page)) { [weak self]  (result: Result<Locations, Error>) in
             switch result {
-            case .success(let data):
-                self?.locations = data
-            case .failure(let error):
-                print("Error with get locations \(error.localizedDescription)")
+            case .success(let success):
+                self?.locations = success
+                self?.configureDataSource()
+            case .failure(let failure):
+                print("Error with get locations: \(failure.localizedDescription)")
             }
         }
     }
@@ -34,17 +33,37 @@ class LocationsViewController: UIViewController {
     //MARK: - Private func
     private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = Constans.Text.Titles.locations
+        title = C.Text.Titles.locations
         locationsView = LocationsView(frame: view.frame)
-        locationsView.delegate = self
+        locationsView.output = self
         view = locationsView
     }
+    
+    private func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<TabBarSection, Location>(collectionView: locationsView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LocationCollectionViewCell.reuseIdentifier, for: indexPath) as? LocationCollectionViewCell else {
+                fatalError("Cannot create \(LocationCollectionViewCell.self)")
+            }
+            cell.location = self.locations.results[indexPath.row]
+            return cell
+        })
+        createSnapshot(section: .locations, locations: locations)
+    }
+    
+    private func createSnapshot(section: TabBarSection, locations: Locations) {
+        var snapshot = NSDiffableDataSourceSnapshot<TabBarSection, Location>()
+        snapshot.appendSections([section])
+        snapshot.appendItems(locations.results, toSection: section)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
 }
 
 //MARK: - LocationsViewTapHandler
-extension LocationsViewController: LocationsViewTapHandler {
+extension LocationsViewController: LocationsViewOutput {
     
-    func pressedOnCell(_ indexPath: IndexPath) {
-        print(locations.results[indexPath.row].name)
+    func didSelectItemAt(_ indexPath: IndexPath) {
+        let detailVC = DetailViewController(.getLocation(location: locations.results[indexPath.row]))
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

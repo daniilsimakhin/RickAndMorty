@@ -9,12 +9,8 @@ import UIKit
 
 class EpisodesViewController: UIViewController {
     
-    enum Section {
-        case episodes
-    }
-    
-    private var page: Int = 1
-    private var collectionView: UICollectionView!
+    var page: Int = 1
+    private var episodesView: EpisodesView!
     private var episodes: Episodes? {
         didSet {
             guard let info = episodes?.info else {
@@ -37,18 +33,8 @@ class EpisodesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        createCollectionView()
         setPage(at: page)
         //проверить на утечку памяти
-    }
-    
-    private func createCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: configureLayout())
-        collectionView.register(EpisodesCollectionViewCell.self, forCellWithReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier)
-        collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        view.addSubview(collectionView)
     }
     
     private func configureLayout() -> UICollectionViewFlowLayout {
@@ -59,6 +45,11 @@ class EpisodesViewController: UIViewController {
     }
     
     private func configureUI() {
+        episodesView = EpisodesView(frame: view.frame)
+        episodesView.dataSource = self
+        episodesView.delegate = self
+        view = episodesView
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         let prevPageButton = UIBarButtonItem(image: UIImage(systemName: "arrow.left.circle"), style: .done, target: self, action: #selector(pageButtonTapped))
         prevPageButton.tag = 0
@@ -66,8 +57,7 @@ class EpisodesViewController: UIViewController {
         nextPageButton.tag = 1
         navigationItem.rightBarButtonItem = nextPageButton
         navigationItem.leftBarButtonItem = prevPageButton
-        title = Constans.Text.Titles.episodes
-        view.backgroundColor = .systemBlue
+        title = C.Text.Titles.episodes
     }
     
     @objc private func pageButtonTapped(sender: UIBarButtonItem!) {
@@ -92,7 +82,7 @@ class EpisodesViewController: UIViewController {
             case .success(let success):
                 DispatchQueue.main.async {
                     self.episodes = success
-                    self.collectionView.reloadData()
+                    self.episodesView.collectionView.reloadData()
                 }
             case .failure(let failure):
                 print(failure)
@@ -102,38 +92,18 @@ class EpisodesViewController: UIViewController {
     }
 }
 
-extension EpisodesViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return episodes?.results.count ?? 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier, for: indexPath) as? EpisodesCollectionViewCell else {
-            fatalError("Cannot create EpisodesCollectionViewCell")
-        }
-        if let episode = episodes?.results[indexPath.row] {
-            cell.configure(episode.episode, episode.name, episode.air_date)
-        }
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier, for: indexPath) as? TitleCollectionReusableView else {
-            fatalError("Cannot create TitleCollectionReusableView")
-        }
-        guard let pages = episodes?.info.pages else { return header }
-        header.configure("Page (\(page)/\(pages))")
-        return header
+//MARK: - EpisodesViewDataSource
+extension EpisodesViewController: EpisodesViewDataSource {
+    func getEpisodes() -> Episodes? {
+        return episodes
     }
 }
 
-extension EpisodesViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 20, height: 90)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+//MARK: - EpisodesViewDelegate
+extension EpisodesViewController: EpisodesViewDelegate {
+    func didSelectItemAt(indexPath: IndexPath) {
+        guard let episode = episodes?.results[indexPath.row] else { return }
+        let detailVC = DetailViewController(.getEpisode(episode: episode))
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DetailTableViewCell.swift
+//  DetailCollectionViewCell.swift
 //  RickAndMorty
 //
 //  Created by Даниил Симахин on 26.09.2022.
@@ -7,28 +7,22 @@
 
 import UIKit
 
-class DetailTableViewCell: UITableViewCell {
+class DetailCollectionViewCell: UICollectionViewCell {
     //MARK: - Variables
-    static let reuseIdentifier = String(describing: DetailTableViewCell.self)
+    static let reuseIdentifier = String(describing: DetailCollectionViewCell.self)
     
     //MARK: - UIViews
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.text = "Test"
-        view.font = .systemFont(ofSize: 20, weight: .light)
+        view.font = .preferredFont(forTextStyle: .headline)
         return view
     }()
     private lazy var subtitleLabel: UILabel = {
         let view = UILabel()
         view.text = "Test"
-        view.font = .systemFont(ofSize: 20, weight: .light)
+        view.font = .preferredFont(forTextStyle: .callout)
         view.textColor = .gray
-        return view
-    }()
-    private lazy var dateLabel: UILabel = {
-        let view = UILabel()
-        view.text = "Test"
-        view.font = .systemFont(ofSize: 20, weight: .light)
         return view
     }()
     private lazy var stackView: UIStackView = {
@@ -40,14 +34,10 @@ class DetailTableViewCell: UITableViewCell {
         return view
     }()
     
-    //MARK: - Internal func
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    //MARK: - View func
+    override func layoutSubviews() {
+        super.layoutSubviews()
         configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: - Private func
@@ -55,7 +45,6 @@ class DetailTableViewCell: UITableViewCell {
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subtitleLabel)
-        stackView.addArrangedSubview(dateLabel)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
@@ -65,12 +54,10 @@ class DetailTableViewCell: UITableViewCell {
     }
     
     //MARK: - Public func
-    func configure(_ title: String?, _ subtitle: String?, _ dateTitle: String?) {
-        let attributedText = NSMutableAttributedString(string: "\(title)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20 , weight: .bold)])
-        attributedText.append(NSAttributedString(string: "\n\(subtitle)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .medium)]))
-        attributedText.append(NSAttributedString(string: "\n\(dateTitle)", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 10, weight: .light)]))
-        titleLabel.attributedText = attributedText
-        titleLabel.text = title
+    func configure(_ title: String?, _ subtitle: String?) {
+        titleLabel.text = title?.capitalized
+        subtitleLabel.text = subtitle?.capitalized
+//        titleLabel.text = title
 //        subtitleLabel.text = subtitle
 //        dateLabel.text = dateTitle
     }

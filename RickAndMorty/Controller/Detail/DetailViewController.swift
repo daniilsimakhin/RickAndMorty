@@ -2,112 +2,171 @@
 //  DetailViewController.swift
 //  RickAndMorty
 //
-//  Created by Даниил Симахин on 26.09.2022.
+//  Created by Даниил Симахин on 01.10.2022.
 //
 
 import UIKit
 
-class DetailViewController: UIViewController {
+enum Section: String, CaseIterable {
+    case information = "Information"
+    case additionalInformation = "Additional information"
+    case characters = "Characters"
+    case episodes = "Episodes"
+}
 
-    enum Division: String, CaseIterable {
-        case informations
-        case episodes
-    }
+class DetailViewController: UIViewController {
+    //MARK: - Variables
+    private var detailView: DetailView!
+    private let detail: DetailInfo
+    private var characters: [Character]?
+    private var episodes: [Episode]?
+    private var sectionsData: [Int: Int] = [:]
     
-    private var character: Character!
-    private var tableView: UITableView!
-    private var dataSource: UITableViewDiffableDataSource<Division, String>!
-    private var informations = [String]()
-    private var episodes = [String]()
-    private var headers = ["Gender", "Origin", "Type", "Location"]
-    private var header = DetailTableViewHeader(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 275))
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(_ detailInfo: DetailInfo) {
+        detail = detailInfo
+        sectionsData[0] = 1
+        if let information = detail.additionalInformation {
+            sectionsData[1] = information.count
+        }
+        if let characters = detail.characters, characters.count > 0 {
+            sectionsData[2] = characters.count
+        }
+        if let episodes = detail.episodes, episodes.count > 0 {
+            sectionsData[3] = episodes.count
+        }
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
-        createSnapshot(division: .informations, items: [
-            "\(character.gender.capitalized)",
-            "\(character.origin.name.capitalized)",
-            "\(character.type == "" ? "Unknown" : character.type.capitalized)",
-            "\(character.location.name) ",
-        ])
-        createSnapshot(division: .episodes, items: ["asd", "aasdasd"])
-        
-        let numberEpisodes = character.episode.map { str in
-            String(str.split(separator: "/").last ?? "")
-        }
-        ServiceLayer.request(router: .getMultipleEpisodes(members: numberEpisodes)) { (result: Result<[Episode], Error>) in
-            switch result {
-            case .success(let success):
-                print(success)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
+        setupViewController()
     }
     
-    //MARK: - Private func
-    private func configureTableView() {
-        tableView = UITableView(frame: view.bounds, style: .plain)
-        tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.reuseIdentifier)
-        tableView.register(DetailTableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderFooterView.reuseIdentifier)
-        configureDataSource()
-        tableView.delegate = self
-        tableView.tableHeaderView = header
-        view.addSubview(tableView)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
-    private func createSnapshot(division: Division, items: [String]) {
-        switch division {
-        case .informations:
-            informations += items
-        case .episodes:
-            episodes += items
-        }
-        var initialSnapshot = NSDiffableDataSourceSnapshot<Division, String>()
-        initialSnapshot.appendSections(Division.allCases)
-        initialSnapshot.appendItems(informations, toSection: .informations)
-        initialSnapshot.appendItems(episodes, toSection: .episodes)
-        DispatchQueue.main.async {
-            self.dataSource.apply(initialSnapshot, animatingDifferences: true)
-        }
-    }
-    
-    private func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Division, String>(tableView: self.tableView, cellProvider: { tableView, indexPath, itemIdentifier in
-            
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.reuseIdentifier, for: indexPath) as? DetailTableViewCell else { fatalError("Cannot create \(DetailTableViewCell.self)") }
-            if indexPath.section == 0 {
-                cell.configure(self.headers[indexPath.row], itemIdentifier, nil)
+    private func setupViewController() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        title = detail.title
+        detailView = DetailView(frame: view.frame)
+        detailView.dataSource = self
+        detailView.delegate = self
+        view = detailView
+        if let characters = detail.characters {
+            if characters.count > 1 {
+                let numberEpisodes = characters.map { str in
+                    String(str.split(separator: "/").last ?? "")
+                }
+                ServiceLayer.request(router: .getMultipleCharacters(members: numberEpisodes)) { (result: Result<[Character], Error>) in
+                    switch result {
+                    case .success(let success):
+                        self.characters = success
+                        self.detailView.collectionView.reloadData()
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            } else if characters.count == 1 {
+                let id = Int(String(characters[0].split(separator: "/").last ?? ""))
+                ServiceLayer.request(router: .getCharacter(at: id!)) { (result: Result<Character, Error>) in
+                    switch result {
+                    case .success(let success):
+                        self.characters = [success]
+                        self.detailView.collectionView.reloadData()
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
             } else {
-                cell.configure(nil, itemIdentifier, nil)
+                return
             }
-            return cell
-        })
-    }
-    
-    //MARK: - Public func
-    func configure(_ data: Character) {
-        self.character = data
-        title = data.name
-        header.configure(character: data)
+        }
+//        if let information = detail.additionalInformation {
+//            data[1] = information.count
+//        }
+        if let episodes = detail.episodes {
+            if episodes.count > 1 {
+                let numberEpisodes = episodes.map { str in
+                    String(str.split(separator: "/").last ?? "")
+                }
+                ServiceLayer.request(router: .getMultipleEpisodes(members: numberEpisodes)) { (result: Result<[Episode], Error>) in
+                    switch result {
+                    case .success(let success):
+                        self.episodes = success
+                        self.detailView.collectionView.reloadData()
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            } else if episodes.count == 1 {
+                let id = String(episodes[0].split(separator: "/").last ?? "")
+                ServiceLayer.request(router: .getMultipleEpisodes(members: [id])) { (result: Result<Episode, Error>) in
+                    switch result {
+                    case .success(let success):
+                        self.episodes = [success]
+                        self.detailView.collectionView.reloadData()
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }
+            } else {
+                return
+            }
+        }
     }
 }
 
-//MARK: - UITableViewDelegate
-extension DetailViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderFooterView.reuseIdentifier) as? DetailTableViewHeaderFooterView else { return UITableViewHeaderFooterView()}
-        let category = Division.allCases[section]
-        header.configure(category.rawValue)
-        return header
+//MARK: - DetailViewDataSource
+extension DetailViewController: DetailViewDataSource {
+    func getAdditionalInformation(_ indexPath: IndexPath) -> [String]? {
+        let header = ["Gender", "Origin", "Type", "Location"]
+        if let info = detail.additionalInformation {
+            return [header[indexPath.row], info[indexPath.row]]
+        }
+        return nil
     }
+    
+    func getInformation() -> ([String], String?) {
+        return (detail.information, detail.image)
+    }
+    
+    func getCharacters(_ indexPath: IndexPath) -> Character? {
+        guard let character = characters?[indexPath.row] else { return nil }
+        return character
+    }
+    
+    func getEpisodes(_ indexPath: IndexPath) -> Episode? {
+        guard let episode = episodes?[indexPath.row] else { return nil }
+        return episode
+    }
+    
+    func getSection(numberSection: Int) -> Section {
+        let sortedSections = self.sectionsData.keys.sorted(by: <)
+        let section = Section.allCases[sortedSections[numberSection]]
+        return section
+    }
+    
+    func numberOfSections() -> Int {
+        return sectionsData.keys.count
+    }
+    
+    func numberOfItemsInSection(numberSection: Int) -> Int {
+        let sortedSections = self.sectionsData.keys.sorted(by: <)
+        let key = sortedSections[numberSection]
+        return sectionsData[key] ?? 1
+    }
+}
+
+//MARK: - DetailViewDelegate
+extension DetailViewController: DetailViewDelegate {
+    func pushViewController(_ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
 }

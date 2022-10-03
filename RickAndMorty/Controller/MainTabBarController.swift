@@ -21,23 +21,23 @@ class MainTabBarController: UITabBarController {
         let episodesNavigationViewController = UINavigationController(rootViewController: EpisodesViewController())
         let bookmarksNavigationViewController = UINavigationController(rootViewController: BookmarksViewController())
         
-        locationsNavigationViewController.tabBarItem = UITabBarItem(title: Constans.Text.Tabbar.locations, image: UIImage(systemName: Constans.Images.Tabbar.locations), tag: 0)
-        locationsNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(Constans.Images.Tabbar.locations).fill")
+        locationsNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.locations, image: UIImage(systemName: C.Images.Tabbar.locations), tag: 0)
+        locationsNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.locations).fill")
         
-        charactersNavigationViewController.tabBarItem = UITabBarItem(title: Constans.Text.Tabbar.characters, image: UIImage(systemName: Constans.Images.Tabbar.characters), tag: 1)
-        charactersNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(Constans.Images.Tabbar.characters).fill")
+        charactersNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.characters, image: UIImage(systemName: C.Images.Tabbar.characters), tag: 1)
+        charactersNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.characters).fill")
         
-        episodesNavigationViewController.tabBarItem = UITabBarItem(title: Constans.Text.Tabbar.episodes, image: UIImage(systemName: Constans.Images.Tabbar.episodes), tag: 2)
-        episodesNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(Constans.Images.Tabbar.episodes).fill")
+        episodesNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.episodes, image: UIImage(systemName: C.Images.Tabbar.episodes), tag: 2)
+        episodesNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.episodes).fill")
         
-        bookmarksNavigationViewController.tabBarItem = UITabBarItem(title: Constans.Text.Tabbar.bookmarks, image: UIImage(systemName: Constans.Images.Tabbar.bookmarks), tag: 3)
-        bookmarksNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(Constans.Images.Tabbar.bookmarks).fill")
+        bookmarksNavigationViewController.tabBarItem = UITabBarItem(title: C.Text.Tabbar.bookmarks, image: UIImage(systemName: C.Images.Tabbar.bookmarks), tag: 3)
+        bookmarksNavigationViewController.tabBarItem.selectedImage = UIImage(systemName: "\(C.Images.Tabbar.bookmarks).fill")
         
         setViewControllers([locationsNavigationViewController, charactersNavigationViewController, episodesNavigationViewController, bookmarksNavigationViewController], animated: true)
         
-        tabBar.tintColor = Constans.Colors.Tabbar.tabBarTint
-        tabBar.backgroundColor = Constans.Colors.Tabbar.tabBarBackground
-        tabBar.unselectedItemTintColor = Constans.Colors.Tabbar.unselectedItemTint
+        tabBar.tintColor = C.Colors.Tabbar.tabBarTint
+        tabBar.backgroundColor = C.Colors.Tabbar.tabBarBackground
+        tabBar.unselectedItemTintColor = C.Colors.Tabbar.unselectedItemTint
     }
     
 }

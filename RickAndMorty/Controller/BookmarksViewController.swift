@@ -7,16 +7,17 @@
 
 import UIKit
 
+enum TabBarSection: String, CaseIterable {
+    case locations = "Locations"
+    case characters = "Characters"
+    case episodes = "Episodes"
+}
+
 class BookmarksViewController: UIViewController {
     
-    enum Section: String, CaseIterable {
-        case locations = "Locations"
-        case characters = "Characters"
-        case episodes = "Episodes"
-    }
     
     private var collectionView: UICollectionView!
-    private var data: [Section: Int] = [.locations: 12, .characters: 10, .episodes: 10]
+    private var data: [TabBarSection: Int] = [.locations: 12, .characters: 10, .episodes: 10]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,7 @@ class BookmarksViewController: UIViewController {
     
     private func setupViewController() {
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = Constans.Text.Titles.bookmarks
+        title = C.Text.Titles.bookmarks
     }
     
     private func createCollectionView() {
@@ -35,7 +36,7 @@ class BookmarksViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(LocationCollectionViewCell.self, forCellWithReuseIdentifier: LocationCollectionViewCell.reuseIdentifier)
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier)
-        collectionView.register(EpisodesCollectionViewCell.self, forCellWithReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier)
+        collectionView.register(EpisodeCollectionViewCell.self, forCellWithReuseIdentifier: EpisodeCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleWithDisclosureCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleWithDisclosureCollectionReusableView.reuseIdentifier)
         view.addSubview(collectionView)
     }
@@ -103,11 +104,11 @@ extension BookmarksViewController: UICollectionViewDelegate {
 
 extension BookmarksViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return Section.allCases.count
+        return TabBarSection.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let category = Section.allCases[section]
+        let category = TabBarSection.allCases[section]
         return data[category] ?? 1
     }
     
@@ -125,10 +126,10 @@ extension BookmarksViewController: UICollectionViewDataSource {
 //            cell.configure(UIImage(named: "test")!)
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodesCollectionViewCell.reuseIdentifier, for: indexPath) as? EpisodesCollectionViewCell else {
-                fatalError("Cannot create EpisodesCollectionViewCell")
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodeCollectionViewCell.reuseIdentifier, for: indexPath) as? EpisodeCollectionViewCell else {
+                fatalError("Cannot create EpisodeCollectionViewCell")
             }
-            cell.configure("S01E01", "Pilot", "DECEMBER 2, 2013")
+//            cell.configure("S01E01", "Pilot", "DECEMBER 2, 2013")
             return cell
         }
     }

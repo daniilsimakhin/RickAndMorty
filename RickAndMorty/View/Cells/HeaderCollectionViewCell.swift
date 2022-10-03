@@ -1,13 +1,15 @@
 //
-//  DetailTableViewHeader.swift
+//  HeaderCollectionViewCell.swift
 //  RickAndMorty
 //
-//  Created by Даниил Симахин on 26.09.2022.
+//  Created by Даниил Симахин on 01.10.2022.
 //
 
 import UIKit
 
-class DetailTableViewHeader: UIView {
+class HeaderCollectionViewCell: UICollectionViewCell {
+    //MARK: - Public variables
+    static let reuseIdentifier = String(describing: HeaderCollectionViewCell.self)
     
     //MARK: - UIViews
     private lazy var imageView: UIImageView = {
@@ -93,10 +95,8 @@ class DetailTableViewHeader: UIView {
         if let url = imageUrl {
             imageView.setImageFrom(url)
             imageView.isHidden = false
-            frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: UIScreen.main.bounds.size.width / 1.4)
         } else {
             imageView.isHidden = true
-            frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 100)
         }
         statusLabel.text = titles[0].capitalized
         nameLabel.text = titles[1].capitalized
