@@ -64,7 +64,6 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         stackView.frame = CGRect(x: 5, y: characterImageView.frame.maxY, width: frame.width - 10, height: frame.height - characterImageView.frame.height - 15)
         contentView.addSubview(characterImageView)
         contentView.addSubview(activityIndicator)
-        contentView.insertSubview(UIView.createGradientLayer(contentView.frame), at: 0)
         contentView.addSubview(stackView)
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(statusLabel)
@@ -72,9 +71,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         
         clipsToBounds = true
         layer.cornerRadius = 20
-        backgroundColor = .systemGray6
-        layer.borderColor = UIColor.black.cgColor
-        layer.borderWidth = 0.1
+        backgroundColor = C.Colors.Cell.background
         
         let path = UIBezierPath(roundedRect: characterImageView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 17.5, height: 17.5))
         let mask = CAShapeLayer()

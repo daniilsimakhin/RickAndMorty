@@ -7,14 +7,24 @@
 
 import UIKit
 
-class EpisodesViewController: UIViewController {
-    
-    var page: Int = 1
+protocol EpisodesDataSource {
+    var page: Int {get}
+    var episodes: Episodes? {get}
+}
+
+protocol EpisodesDelegate {
+    func didSelectItemAt(indexPath: IndexPath)
+}
+
+class EpisodesViewController: UIViewController, EpisodesDataSource {
+    //MARK: - Variables
     private var episodesView: EpisodesView!
-    private var episodes: Episodes? {
+    private(set) var page: Int = 1
+    private(set) var episodes: Episodes? {
         didSet {
             guard let info = episodes?.info else {
-                navigationItem.leftBarButtonItem?.isEnabled = true
+                navigationItem.leftBarButtonItem?.isEnabled = false
+                navigationItem.rightBarButtonItem?.isEnabled = false
                 return
             }
             if info.prev == nil {
@@ -30,45 +40,30 @@ class EpisodesViewController: UIViewController {
         }
     }
     
+    //MARK: - View func
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        setupUI()
         setPage(at: page)
-        //проверить на утечку памяти
     }
     
-    private func configureLayout() -> UICollectionViewFlowLayout {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.headerReferenceSize = CGSize(width: view.frame.width, height: 30)
-        return layout
-    }
-    
-    private func configureUI() {
+    //MARK: - Private func
+    private func setupUI() {
         episodesView = EpisodesView(frame: view.frame)
         episodesView.dataSource = self
         episodesView.delegate = self
         view = episodesView
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        let prevPageButton = UIBarButtonItem(image: UIImage(systemName: "arrow.left.circle"), style: .done, target: self, action: #selector(pageButtonTapped))
-        prevPageButton.tag = 0
-        let nextPageButton = UIBarButtonItem(image: UIImage(systemName: "arrow.right.circle"), style: .done, target: self, action: #selector(pageButtonTapped))
-        nextPageButton.tag = 1
-        navigationItem.rightBarButtonItem = nextPageButton
-        navigationItem.leftBarButtonItem = prevPageButton
+        navigationItem.rightBarButtonItem = createBarButtonItem(C.Images.NavBar.EpisodesView.rightBarButton, #selector(pageButtonTapped(sender:)), 1)
+        navigationItem.leftBarButtonItem = createBarButtonItem(C.Images.NavBar.EpisodesView.leftBarButton, #selector(pageButtonTapped(sender:)), 0)
         title = C.Text.Titles.episodes
     }
     
-    @objc private func pageButtonTapped(sender: UIBarButtonItem!) {
-        switch sender.tag {
-        case 0:
-            setPage(at: -1)
-        case 1:
-            setPage(at: 1)
-        default:
-            return
-        }
+    private func createBarButtonItem(_ imagePath: String, _ action: Selector, _ tag: Int) -> UIBarButtonItem {
+        let button = UIBarButtonItem(image: UIImage(systemName: imagePath), style: .done, target: self, action: action)
+        button.tag = tag
+        return button
     }
     
     private func setPage(at value: Int) {
@@ -87,20 +82,25 @@ class EpisodesViewController: UIViewController {
             case .failure(let failure):
                 print(failure)
             }
-            //проверить на утечку памяти
         }
     }
-}
-
-//MARK: - EpisodesViewDataSource
-extension EpisodesViewController: EpisodesViewDataSource {
-    func getEpisodes() -> Episodes? {
-        return episodes
+    
+    //MARK: - @objc func
+    @objc private func pageButtonTapped(sender: UIBarButtonItem!) {
+        switch sender.tag {
+        case 0:
+            setPage(at: -1)
+        case 1:
+            setPage(at: 1)
+        default:
+            return
+        }
     }
+    
 }
 
 //MARK: - EpisodesViewDelegate
-extension EpisodesViewController: EpisodesViewDelegate {
+extension EpisodesViewController: EpisodesDelegate {
     func didSelectItemAt(indexPath: IndexPath) {
         guard let episode = episodes?.results[indexPath.row] else { return }
         let detailVC = DetailViewController(.getEpisode(episode: episode))

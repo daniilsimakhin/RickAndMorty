@@ -28,7 +28,7 @@ class TitleCollectionReusableView: UICollectionReusableView {
     
     private func setupUI() {
         addSubview(titleLabel)
-        backgroundColor = .white
+        backgroundColor = C.Colors.CollectionView.background
         titleLabel.frame = CGRect(x: frame.width / 10 / 2, y: 0, width: frame.width, height: frame.height)
     }
     

@@ -40,6 +40,7 @@ class LocationsView: UIView {
         collectionView.delegate = self
         collectionView.register(LocationCollectionViewCell.self, forCellWithReuseIdentifier: LocationCollectionViewCell.reuseIdentifier)
         collectionView.register(RefreshCollectionViewCell.self, forCellWithReuseIdentifier: RefreshCollectionViewCell.reuseIdentifier)
+        collectionView.backgroundColor = C.Colors.CollectionView.background
         addSubview(collectionView)
     }
     

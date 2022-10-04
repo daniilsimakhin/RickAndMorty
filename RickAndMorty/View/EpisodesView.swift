@@ -7,21 +7,12 @@
 
 import UIKit
 
-protocol EpisodesViewDataSource {
-    var page: Int {get}
-    func getEpisodes() -> Episodes?
-}
-
-protocol EpisodesViewDelegate {
-    func didSelectItemAt(indexPath: IndexPath)
-}
-
 class EpisodesView: UIView {
     
     //MARK: - Variables
     private(set) var collectionView: UICollectionView!
-    var dataSource: EpisodesViewDataSource?
-    var delegate: EpisodesViewDelegate?
+    var dataSource: EpisodesDataSource?
+    var delegate: EpisodesDelegate?
     
     //MARK: - Func view
     override init(frame: CGRect) {
@@ -40,6 +31,9 @@ class EpisodesView: UIView {
         collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        collectionView.backgroundColor = C.Colors.CollectionView.background
+        
         addSubview(collectionView)
     }
     
@@ -70,18 +64,16 @@ extension EpisodesView: UICollectionViewDelegateFlowLayout {
 extension EpisodesView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let episodes = dataSource?.getEpisodes()
-        return episodes?.results.count ?? 1
+        guard let episodes = dataSource?.episodes else { return 0 }
+        return episodes.results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EpisodeCollectionViewCell.reuseIdentifier, for: indexPath) as? EpisodeCollectionViewCell else {
             fatalError("Cannot create EpisodeCollectionViewCell")
         }
-        let episodes = dataSource?.getEpisodes()
-        if let episode = episodes?.results[indexPath.row] {
-            cell.configure(episode)
-        }
+        guard let episode = dataSource?.episodes?.results[indexPath.row] else { return cell }
+        cell.configure(episode)
         return cell
     }
     
@@ -89,8 +81,7 @@ extension EpisodesView: UICollectionViewDataSource {
         guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier, for: indexPath) as? TitleCollectionReusableView else {
             fatalError("Cannot create TitleCollectionReusableView")
         }
-        let episodes = dataSource?.getEpisodes()
-        guard let pages = episodes?.info.pages else { return header }
+        guard let pages = dataSource?.episodes?.info.pages else { return header }
         header.configure("Page (\(dataSource?.page ?? 0)/\(pages))")
         return header
     }

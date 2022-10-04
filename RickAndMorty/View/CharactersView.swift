@@ -23,7 +23,7 @@ class CharactersView: UIView {
     private(set) var collectionView: UICollectionView!
     private(set) lazy var amountCharactersLabel: UILabel = {
         let view = UILabel()
-        view.backgroundColor = .separator
+        view.backgroundColor = C.Colors.Cell.background
         view.textColor = .black
         view.font = .systemFont(ofSize: 15, weight: .bold)
         view.numberOfLines = 1
@@ -59,6 +59,7 @@ class CharactersView: UIView {
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier)
         addSubview(collectionView)
         collectionView.addSubview(amountCharactersLabel)
+        collectionView.backgroundColor = C.Colors.CollectionView.background
         collectionView.showsVerticalScrollIndicator = false
     }
     

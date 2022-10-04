@@ -16,6 +16,14 @@ enum Constans {
             static let tabBarBackground = UIColor(named: "tabBarBackground")
             static let tabBarTint = UIColor(named: "tabBarTint")
         }
+        
+        enum Cell {
+            static let background = UIColor(named: "cellBackground")
+        }
+        
+        enum CollectionView {
+            static let background = UIColor(named: "collectionViewBackground")
+        }
     }
 
     enum Text {
@@ -40,6 +48,13 @@ enum Constans {
             static let characters = "person.2.circle"
             static let episodes = "play.circle"
             static let bookmarks = "bookmark.circle"
+        }
+        
+        enum NavBar {
+            enum EpisodesView {
+                static let rightBarButton = "arrow.right.circle"
+                static let leftBarButton = "arrow.left.circle"
+            }
         }
     }
 }
