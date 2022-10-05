@@ -57,6 +57,7 @@ class DetailView: UIView {
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier)
         collectionView.register(EpisodeCollectionViewCell.self, forCellWithReuseIdentifier: EpisodeCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleCollectionReusableView.reuseIdentifier)
+        collectionView.backgroundColor = C.Colors.CollectionView.background
     }
 
     private func configureLayout() -> UICollectionViewCompositionalLayout {

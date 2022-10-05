@@ -21,36 +21,36 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
-        view.alignment = .fill
+        view.alignment = .center
         view.distribution = .fillProportionally
+        view.spacing = 1
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     private lazy var nameLabel: UILabel = {
         let view = UILabel()
-        view.text = "nameLabel"
-        view.font = .preferredFont(forTextStyle: .title3)
-        view.adjustsFontSizeToFitWidth = true
+        view.font = .preferredFont(forTextStyle: .title1)
+        view.textColor = C.Colors.Font.main
         view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     private lazy var statusLabel: UILabel = {
         let view = UILabel()
-        view.text = "statusLabel"
         view.font = .preferredFont(forTextStyle: .body)
-        view.adjustsFontSizeToFitWidth = true
+        view.textColor = C.Colors.Font.secondary
         view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     private lazy var speciesLabel: UILabel = {
         let view = UILabel()
-        view.text = "speciesLabel"
-        view.font = .preferredFont(forTextStyle: .footnote)
-        view.textColor = .gray
-        view.adjustsFontSizeToFitWidth = true
+        view.font = .preferredFont(forTextStyle: .body)
+        view.textColor = C.Colors.Font.secondary
         view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -58,6 +58,7 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     //MARK: - Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +66,8 @@ class HeaderCollectionViewCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        setupUI()
+        super.layoutSubviews()
+        setupConstratins()
     }
     
     //MARK: - Private func
@@ -75,7 +77,9 @@ class HeaderCollectionViewCell: UICollectionViewCell {
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(statusLabel)
         stackView.addArrangedSubview(speciesLabel)
-        
+    }
+    
+    private func setupConstratins() {
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(lessThanOrEqualToConstant: frame.width / 2),
             

@@ -11,10 +11,15 @@ import UIKit
 typealias C = Constans
 enum Constans {
     enum Colors {
-        enum Tabbar {
-            static let unselectedItemTint = UIColor(named: "unselectedItemTint")
-            static let tabBarBackground = UIColor(named: "tabBarBackground")
-            static let tabBarTint = UIColor(named: "tabBarTint")
+        enum TabBar {
+            static let unselectedItemTint = UIColor(named: "tabBarUnselectedItemTint")
+            static let background = UIColor(named: "tabBarBackground")
+            static let tint = UIColor(named: "tabBarTint")
+        }
+        
+        enum NavBar {
+            static let background = UIColor(named: "navBarBackground")
+            static let item = UIColor(named: "navBarButton")
         }
         
         enum Cell {
@@ -23,6 +28,11 @@ enum Constans {
         
         enum CollectionView {
             static let background = UIColor(named: "collectionViewBackground")
+        }
+        
+        enum Font {
+            static let main = UIColor(named: "fontMain")
+            static let secondary = UIColor(named: "fontSecondary")
         }
     }
 

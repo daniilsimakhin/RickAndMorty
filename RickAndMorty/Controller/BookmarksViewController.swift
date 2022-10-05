@@ -39,6 +39,7 @@ class BookmarksViewController: UIViewController {
         collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: CharacterCollectionViewCell.reuseIdentifier)
         collectionView.register(EpisodeCollectionViewCell.self, forCellWithReuseIdentifier: EpisodeCollectionViewCell.reuseIdentifier)
         collectionView.register(TitleWithDisclosureCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: TitleWithDisclosureCollectionReusableView.reuseIdentifier)
+        collectionView.backgroundColor = C.Colors.CollectionView.background
         view.addSubview(collectionView)
     }
     

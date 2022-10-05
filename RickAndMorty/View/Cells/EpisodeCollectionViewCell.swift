@@ -14,7 +14,6 @@ class EpisodeCollectionViewCell: UICollectionViewCell {
     private let episodeTextView: UILabel = {
         let view = UILabel()
         view.font = .systemFont(ofSize: 20, weight: .medium)
-        view.textColor = .black
         view.textAlignment = .center
         view.numberOfLines = 0
         view.backgroundColor = .clear
@@ -36,7 +35,7 @@ class EpisodeCollectionViewCell: UICollectionViewCell {
         clipsToBounds = true
         layer.cornerRadius = 20
         backgroundColor = C.Colors.Cell.background
-        
+                
         episodeTextView.frame = CGRect(x: 20, y: 0, width: contentView.frame.width - 40, height: contentView.frame.height)
     }
     

@@ -9,7 +9,7 @@ import UIKit
 
 class RefreshCollectionViewCell: UICollectionViewCell {
     
-    //MARK: - Public variables
+    //MARK: - Variables
     static var reuseIdentifier = String(describing: RefreshCollectionViewCell.self)
     
     //MARK: - UI

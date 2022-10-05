@@ -62,6 +62,7 @@ class EpisodesViewController: UIViewController, EpisodesDataSource {
     
     private func createBarButtonItem(_ imagePath: String, _ action: Selector, _ tag: Int) -> UIBarButtonItem {
         let button = UIBarButtonItem(image: UIImage(systemName: imagePath), style: .done, target: self, action: action)
+        button.tintColor = C.Colors.NavBar.item
         button.tag = tag
         return button
     }

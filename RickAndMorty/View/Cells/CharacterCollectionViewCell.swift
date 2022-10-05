@@ -31,21 +31,22 @@ class CharacterCollectionViewCell: UICollectionViewCell {
     }()
     private let nameLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 20, weight: .semibold)
+        view.font = .preferredFont(forTextStyle: .headline)
         view.numberOfLines = 1
         view.textAlignment = .left
         return view
     }()
     private let statusLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 15, weight: .light)
+        view.font = .preferredFont(forTextStyle: .subheadline)
         view.textAlignment = .left
         return view
     }()
     private let speciesLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 15, weight: .light)
+        view.font = .preferredFont(forTextStyle: .subheadline)
         view.textAlignment = .left
+        view.textColor = C.Colors.Font.secondary
         return view
     }()
     
@@ -72,12 +73,14 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         clipsToBounds = true
         layer.cornerRadius = 20
         backgroundColor = C.Colors.Cell.background
+
+        layer.borderColor = UIColor.black.withAlphaComponent(0.5).cgColor
+        layer.borderWidth = 0.5
         
         let path = UIBezierPath(roundedRect: characterImageView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 17.5, height: 17.5))
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         characterImageView.layer.mask = mask
-        
     }
     
     func configure(_ character: Character) {
@@ -86,10 +89,17 @@ class CharacterCollectionViewCell: UICollectionViewCell {
         UIImage.download(character.image, completion: { image in
             self.characterImageView.image = image
             self.activityIndicator.stopAnimating()
-            self.nameLabel.text = character.name
-            self.statusLabel.text = character.status
-            self.speciesLabel.text = character.species
-            #warning("@ToDo: проверить на утечки памяти")
+#warning("@ToDo: проверить на утечки памяти")
         })
+        nameLabel.text = character.name.capitalized
+        statusLabel.text = character.status.capitalized
+        speciesLabel.text = character.species.capitalized
+        if character.status == "Alive" {
+            statusLabel.textColor = .systemGreen
+        } else if character.status == "Dead" {
+            statusLabel.textColor = .systemRed
+        } else if character.status == "unknown" {
+            statusLabel.textColor = C.Colors.Font.secondary
+        }
     }
 }

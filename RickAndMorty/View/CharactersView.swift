@@ -24,7 +24,7 @@ class CharactersView: UIView {
     private(set) lazy var amountCharactersLabel: UILabel = {
         let view = UILabel()
         view.backgroundColor = C.Colors.Cell.background
-        view.textColor = .black
+        view.textColor = C.Colors.NavBar.item
         view.font = .systemFont(ofSize: 15, weight: .bold)
         view.numberOfLines = 1
         view.textAlignment = .center

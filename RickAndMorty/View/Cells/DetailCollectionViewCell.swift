@@ -11,18 +11,18 @@ class DetailCollectionViewCell: UICollectionViewCell {
     //MARK: - Variables
     static let reuseIdentifier = String(describing: DetailCollectionViewCell.self)
     
-    //MARK: - UIViews
+    //MARK: - UI
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
-        view.text = "Test"
         view.font = .preferredFont(forTextStyle: .headline)
+        view.textColor = C.Colors.Font.main
         return view
     }()
     private lazy var subtitleLabel: UILabel = {
         let view = UILabel()
         view.text = "Test"
-        view.font = .preferredFont(forTextStyle: .callout)
-        view.textColor = .gray
+        view.font = .preferredFont(forTextStyle: .subheadline)
+        view.textColor = C.Colors.Font.secondary
         return view
     }()
     private lazy var stackView: UIStackView = {

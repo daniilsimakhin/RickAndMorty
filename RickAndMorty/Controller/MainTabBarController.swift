@@ -22,14 +22,15 @@ class MainTabBarController: UITabBarController {
             createNavigationController(EpisodesViewController(), C.Text.Tabbar.episodes, C.Images.Tabbar.episodes),
             createNavigationController(BookmarksViewController(), C.Text.Tabbar.bookmarks, C.Images.Tabbar.bookmarks)
         ], animated: true)
-        
-        tabBar.tintColor = C.Colors.Tabbar.tabBarTint
-        tabBar.backgroundColor = C.Colors.Tabbar.tabBarBackground
-        tabBar.unselectedItemTintColor = C.Colors.Tabbar.unselectedItemTint
+    
+        tabBar.backgroundColor = C.Colors.TabBar.background
+        tabBar.tintColor = C.Colors.TabBar.tint
+        tabBar.barTintColor = C.Colors.TabBar.background
+        tabBar.unselectedItemTintColor = C.Colors.TabBar.unselectedItemTint
     }
     
     private func createNavigationController(_ viewController: UIViewController, _ title: String, _ imageName: String) -> UINavigationController {
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let navigationController = NavigationController(rootViewController: viewController)
         navigationController.tabBarItem = UITabBarItem(title: title, image: UIImage(systemName: imageName), selectedImage: UIImage(systemName: "\(imageName).fill"))
         return navigationController
     }
